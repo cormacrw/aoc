@@ -2,18 +2,17 @@ package main
 
 import (
 	"bufio"
-	"embed"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
 
-var content embed.FS
-
 func main() {
 	sum := 0
-	file, err := os.Open("/Users/cormacwilliamson/cormacdev/go/aoc-1/input.txt")
+	filePath, err := filepath.Abs("1/input.txt")
+	file, err := os.Open(filePath)
 
 	if err != nil {
 		fmt.Println(err)
@@ -24,7 +23,6 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	// optionally, resize scanner's capacity for lines over 64K, see next example
 	for scanner.Scan() {
-		fmt.Println("LINE", scanner.Text())
 		str := scanner.Text()
 		chars := strings.Split(str, "")
 		i := 0
@@ -59,21 +57,17 @@ func main() {
 
 		}
 
-		fmt.Println("FOUND VALUE", leftVal, rightVal)
-
 		val, err := strconv.Atoi(leftVal + rightVal)
 		if err == nil {
-			fmt.Println("VALUE", val)
 			sum = sum + val
 		}
 	}
 
-	fmt.Println(sum)
+	fmt.Println("ANSWER: ", sum)
 
 	if err := scanner.Err(); err != nil {
 		fmt.Println("scanner err")
 	}
-
 
 }
 
